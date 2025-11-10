@@ -2,6 +2,7 @@ CC=cc
 NAME = philo
 SRC_DIR = src/
 SRCS = $(SRC_DIR)philo.c \
+	$(SRC_DIR)parser.c
 
 OBJ_DIR = objs/
 OBJS = $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
