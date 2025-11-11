@@ -6,17 +6,32 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 09:57:56 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/11 10:02:15 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/11 11:35:50 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 # include <pthread.h>
+#include <stddef.h>
 
+typedef struct s_simulation	t_simulation;
+typedef enum e_state
+{
+	EAT,
+	THINKING,
+	SLEEP,
+}			t_state;
 typedef struct s_philo
 {
-	pthread_t	thread;
+	t_simulation	*simulation;
+	pthread_mutex_t	right_fork;
+	pthread_mutex_t	*left_fork;
+	size_t			id;
+	pthread_t		thread;
+	t_state			state;
 }				t_philo;
+t_philo	*philo_new(t_simulation *simulation, size_t id);
+void	*philo_start(void *arg);
 
 #endif

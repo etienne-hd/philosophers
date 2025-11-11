@@ -6,14 +6,52 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 08:32:48 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/11 10:01:50 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/11 11:26:39 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "simulation.h"
 #include "parser.h"
+#include "philo.h"
+#include <stddef.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <pthread.h>
+
+void	simulation_destroy(t_simulation **simulation)
+{
+	size_t	i;
+
+	i = 0;
+	while ((*simulation)->philos && i < (*simulation)->number_of_philo)
+	{
+		pthread_mutex_destroy(&(*simulation)->philos[i]->right_fork);
+		free((*simulation)->philos[i]);
+		i++;
+	}
+	if ((*simulation)->philos)
+		free((*simulation)->philos);
+	free(*simulation);
+	*simulation = NULL;
+}
+
+static void	simulation_start(t_simulation *simulation)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < simulation->number_of_philo)
+	{
+		pthread_create(&simulation->philos[i]->thread, NULL, philo_start, simulation->philos[i]);
+		i++;
+	}
+	i = 0;
+	while (i < simulation->number_of_philo)
+	{
+		pthread_join(simulation->philos[i]->thread, NULL);
+		i++;
+	}
+}
 
 int	main(int argc, char **argv)
 {
@@ -26,5 +64,9 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	simulation = parse(argc, argv);
-	free(simulation);
+	if (!simulation)
+		return (1);
+	simulation_start(simulation);
+	simulation_destroy(&simulation);
+	return (0);
 }

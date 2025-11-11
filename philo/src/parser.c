@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 08:37:59 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/11 10:01:38 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/11 11:36:10 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "simulation.h"
 #include "utils.h"
 #include <stddef.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -51,37 +52,80 @@ static int	init_settings(int argc, char **argv, t_simulation *simulation)
 		simulation->nb_of_times_each_philo_must_eat = ft_philo_atoi(argv[5]);
 	else
 		simulation->nb_of_times_each_philo_must_eat = -1;
-	return (
+	if (
 		(argc == 6 && simulation->nb_of_times_each_philo_must_eat == -1)
 		|| simulation->number_of_philo == -1
 		|| simulation->time_to_die == -1
 		|| simulation->time_to_eat == -1
 		|| simulation->time_to_sleep == -1
-	);
+	)
+	{
+		write(2, "Error\nInvalid input.\n", 21);
+		return (1);
+	}
+	return (0);
+}
+
+static void	init_philos_fork(t_simulation *sim)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < sim->number_of_philo)
+	{
+		if (sim->number_of_philo == 1)
+			sim->philos[i]->left_fork = NULL;
+		else if (sim->number_of_philo == i + 1)
+			sim->philos[i]->left_fork = &sim->philos[0]->right_fork;
+		else
+			sim->philos[i]->left_fork = &sim->philos[i + 1]->right_fork;
+		pthread_mutex_lock(&sim->philos[i]->right_fork);
+		i++;
+	}
+}
+static int	init_philos(t_simulation *sim)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < sim->number_of_philo)
+	{
+		sim->philos[i] = philo_new(sim, i + 1);
+		if (!sim->philos[i])
+		{
+			write(2, "Error\nAllocation failed.\n", 25);
+			return (1);
+		}
+		i++;
+	}
+	sim->philos[i]->state = EAT;
+	init_philos_fork(sim);
+	return (0);
 }
 
 t_simulation	*parse(int argc, char **argv)
 {
-	t_simulation	*simulation;
+	t_simulation	*sim;
 
-	simulation = ft_calloc(1, sizeof(t_simulation));
-	if (!simulation)
+	sim = ft_calloc(1, sizeof(t_simulation));
+	if (!sim)
 	{
-		write(2, "Error\nAllocation failed.\n", 27);
+		write(2, "Error\nAllocation failed.\n", 25);
 		return (NULL);
 	}
-	if (init_settings(argc, argv, simulation))
+	if (init_settings(argc, argv, sim))
 	{
-		write(2, "Error\nInvalid input.\n", 23);
-		free(simulation);
+		simulation_destroy(&sim);
 		return (NULL);
 	}
-	simulation->philos = ft_calloc(simulation->number_of_philo, sizeof(t_philo));
-	if (!simulation->philos)
+	sim->philos = ft_calloc(sim->number_of_philo, sizeof(t_philo *));
+	if (!sim->philos)
 	{
-		write(2, "Error\nAllocation failed.\n", 27);
-		free(simulation);
+		write(2, "Error\nAllocation failed.\n", 25);
+		simulation_destroy(&sim);
 		return (NULL);
 	}
-	return (simulation);
+	if (init_philos(sim))
+		simulation_destroy(&sim);
+	return (sim);
 }
