@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 08:37:59 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/11 11:36:10 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/11 13:52:25 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static void	init_philos_fork(t_simulation *sim)
 			sim->philos[i]->left_fork = &sim->philos[0]->right_fork;
 		else
 			sim->philos[i]->left_fork = &sim->philos[i + 1]->right_fork;
-		pthread_mutex_lock(&sim->philos[i]->right_fork);
+		pthread_mutex_init(&sim->philos[i]->right_fork, NULL);
 		i++;
 	}
 }
@@ -96,9 +96,9 @@ static int	init_philos(t_simulation *sim)
 			write(2, "Error\nAllocation failed.\n", 25);
 			return (1);
 		}
+		sim->philos[i]->state = THINKING;
 		i++;
 	}
-	sim->philos[i]->state = EAT;
 	init_philos_fork(sim);
 	return (0);
 }

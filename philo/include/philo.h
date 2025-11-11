@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 09:57:56 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/11 11:35:50 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/11 13:37:46 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ typedef struct s_philo
 	size_t			id;
 	pthread_t		thread;
 	t_state			state;
+	size_t			next_state_in;
+	size_t			last_meal;
 }				t_philo;
 t_philo	*philo_new(t_simulation *simulation, size_t id);
 void	*philo_start(void *arg);

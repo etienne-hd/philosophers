@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   simulation_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 08:50:51 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/11 17:12:25 by ehode            ###   ########.fr       */
+/*   Created: 2025/11/11 15:06:21 by ehode             #+#    #+#             */
+/*   Updated: 2025/11/11 15:08:34 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
-# include <stddef.h>
+#include "simulation.h"
+#include <pthread.h>
 
-size_t	get_timestamp(void);
-void	*ft_calloc(size_t n, size_t size);
+int	get_simulation_state(t_simulation *sim)
+{
+	int	state;
 
-#endif
+	pthread_mutex_lock(&sim->lock);
+	state = sim->is_finish;
+	pthread_mutex_unlock(&sim->lock);
+	return (state);
+}

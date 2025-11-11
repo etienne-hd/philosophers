@@ -6,11 +6,12 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 08:32:48 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/11 11:26:39 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/11 15:39:54 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "simulation.h"
+#include "utils.h"
 #include "parser.h"
 #include "philo.h"
 #include <stddef.h>
@@ -39,10 +40,12 @@ static void	simulation_start(t_simulation *simulation)
 {
 	size_t	i;
 
+	simulation->start_at = get_timestamp();
 	i = 0;
 	while (i < simulation->number_of_philo)
 	{
 		pthread_create(&simulation->philos[i]->thread, NULL, philo_start, simulation->philos[i]);
+		usleep(50);
 		i++;
 	}
 	i = 0;
