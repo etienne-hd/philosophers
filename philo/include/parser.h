@@ -5,15 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/10 10:13:10 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/10 10:14:24 by ehode            ###   ########.fr       */
+/*   Created: 2025/11/11 09:04:15 by ehode             #+#    #+#             */
+/*   Updated: 2025/11/11 09:04:45 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
-# include "philo.h"
+# include "simulation.h"
 
-t_philo	*parse(int argc, char **argv);
+t_simulation	*parse(int argc, char **argv);
 
 #endif

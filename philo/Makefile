@@ -1,8 +1,10 @@
 CC=cc
 NAME = philo
 SRC_DIR = src/
-SRCS = $(SRC_DIR)philo.c \
-	$(SRC_DIR)parser.c
+SRCS = $(SRC_DIR)simulation.c \
+	$(SRC_DIR)parser.c \
+	$(SRC_DIR)utils.c \
+	$(SRC_DIR)philo.c
 
 OBJ_DIR = objs/
 OBJS = $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
@@ -10,27 +12,22 @@ OBJS = $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 CFLAGS = -g \
 		-I include \
 
-LDFLAGS = -Wall -Werror -Wextra -g $(LIBFT)
+LDFLAGS = -Wall -Werror -Wextra -g
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME): $(OBJS)
 	$(CC) $(OBJS) $(LDFLAGS) -o $(NAME)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p objs/
 	$(CC) $(CFLAGS) $< -c -o $@
 
-$(LIBFT):
-	$(MAKE) -C libft
-
 fclean: clean
 	rm -f $(NAME)
-	$(MAKE) -C libft fclean
 
 clean:
 	rm -rf $(OBJ_DIR)
-	$(MAKE) -C libft clean
 
 run: all
 	./$(NAME) $(ARGS)

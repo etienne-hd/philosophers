@@ -1,2 +1,5 @@
 *.o
 objs/
+compile_commands.json
+philo/philo
+.cache

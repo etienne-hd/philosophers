@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 09:57:56 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/11 10:02:15 by ehode            ###   ########.fr       */
+/*   Created: 2025/11/11 08:50:51 by ehode             #+#    #+#             */
+/*   Updated: 2025/11/11 08:51:15 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
-# include <pthread.h>
+#ifndef UTILS_H
+# define UTILS_H
+# include <stddef.h>
 
-typedef struct s_philo
-{
-	pthread_t	thread;
-}				t_philo;
+void	*ft_calloc(size_t n, size_t size);
 
 #endif

@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   simulation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 09:57:56 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/11 10:02:15 by ehode            ###   ########.fr       */
+/*   Created: 2025/11/11 08:32:48 by ehode             #+#    #+#             */
+/*   Updated: 2025/11/11 10:01:50 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
-# include <pthread.h>
+#include "simulation.h"
+#include "parser.h"
+#include <stdlib.h>
+#include <unistd.h>
 
-typedef struct s_philo
+int	main(int argc, char **argv)
 {
-	pthread_t	thread;
-}				t_philo;
+	t_simulation	*simulation;
 
-#endif
+	if (argc < 5 || argc > 6)
+	{
+		write(2, "Usage: ./philo <number_of_philosophers> <time_to_die> \
+<time_to_eat> <time_to_sleep> [number_of_times_each_philosopher_must_eat]\n", 128);
+		return (1);
+	}
+	simulation = parse(argc, argv);
+	free(simulation);
+}

@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 09:57:56 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/11 10:02:15 by ehode            ###   ########.fr       */
+/*   Created: 2025/11/11 08:47:22 by ehode             #+#    #+#             */
+/*   Updated: 2025/11/11 08:50:42 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
-# include <pthread.h>
+#include <stddef.h>
+#include <stdlib.h>
 
-typedef struct s_philo
+void	*ft_calloc(size_t n, size_t size)
 {
-	pthread_t	thread;
-}				t_philo;
+	void	*alloc;
+	size_t	i;
 
-#endif
+	if (n == 0 || size == 0)
+		return (malloc(0));
+	if (n > (size_t)-1 / size)
+		return (NULL);
+	alloc = malloc(n * size);
+	if (!alloc)
+		return (NULL);
+	i = 0;
+	while (i < n * size)
+		((char *)alloc)[i++] = 0;
+	return (alloc);
+}
