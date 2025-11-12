@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 10:18:02 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/12 15:01:37 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/12 17:02:25 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	philo_display(t_philo *philo, const char *s, int lock_sim)
 
 	if (s)
 		message = s;
-	if (philo->state == THINKING)
+	else if (philo->state == THINKING)
 		message = "is thinking";
 	else if (philo->state == EAT)
 		message = "is eating";
@@ -30,7 +30,7 @@ void	philo_display(t_philo *philo, const char *s, int lock_sim)
 	if (lock_sim)
 		pthread_mutex_lock(&philo->simulation->lock);
 	if (!philo->simulation->is_finish)
-		printf("%lu %lu %s\n",
+		printf("\e[0;33m%lums\t\e[0;32m%lu \e[0;34m%s\e[0m\n",
 			get_timestamp() - philo->simulation->start_at, philo->id, message);
 	if (lock_sim)
 		pthread_mutex_unlock(&philo->simulation->lock);

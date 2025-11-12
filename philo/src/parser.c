@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 08:37:59 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/12 13:00:31 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/12 18:34:44 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	ft_philo_atoi(char *s)
 	}
 	while (s[i] == ' ' && (s[i] >= 8 && s[i] <= 13))
 		i++;
-	if (s[i] != '\0')
+	if (s[i] != '\0' || nb == 0)
 		return (-1);
 	return (nb);
 }
@@ -60,7 +60,7 @@ static int	init_settings(int argc, char **argv, t_simulation *simulation)
 		|| simulation->time_to_sleep == -1
 	)
 	{
-		write(2, "Error\nInvalid input.\n", 21);
+		write(2, "\e[0;31mError\nInvalid input.\e[0m\n", 32);
 		return (1);
 	}
 	return (0);
@@ -78,6 +78,7 @@ static void	init_philos_fork(t_simulation *sim)
 		else
 			sim->philos[i]->left_philo = sim->philos[i + 1];
 		pthread_mutex_init(&sim->philos[i]->lock, NULL);
+		sim->philos[i]->is_mutex_init = 1;
 		i++;
 	}
 }
@@ -91,7 +92,7 @@ static int	init_philos(t_simulation *sim)
 		sim->philos[i] = philo_new(sim, i + 1);
 		if (!sim->philos[i])
 		{
-			write(2, "Error\nAllocation failed.\n", 25);
+			write(2, "\e[0;31mError\nAllocation failed.\e[0m\n", 36);
 			return (1);
 		}
 		sim->philos[i]->state = THINKING;
@@ -108,7 +109,7 @@ t_simulation	*parse(int argc, char **argv)
 	sim = ft_calloc(1, sizeof(t_simulation));
 	if (!sim)
 	{
-		write(2, "Error\nAllocation failed.\n", 25);
+		write(2, "\e[0;31mError\nAllocation failed.\e[0m\n", 36);
 		return (NULL);
 	}
 	if (init_settings(argc, argv, sim))
@@ -119,7 +120,7 @@ t_simulation	*parse(int argc, char **argv)
 	sim->philos = ft_calloc(sim->number_of_philo, sizeof(t_philo *));
 	if (!sim->philos)
 	{
-		write(2, "Error\nAllocation failed.\n", 25);
+		write(2, "\e[0;31mError\nAllocation failed.\e[0m\n", 36);
 		simulation_destroy(&sim);
 		return (NULL);
 	}
