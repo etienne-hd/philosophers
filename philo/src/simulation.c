@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 08:32:48 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/11 15:39:54 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/12 13:47:52 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	simulation_destroy(t_simulation **simulation)
 	i = 0;
 	while ((*simulation)->philos && i < (*simulation)->number_of_philo)
 	{
-		pthread_mutex_destroy(&(*simulation)->philos[i]->right_fork);
+		pthread_mutex_destroy(&(*simulation)->philos[i]->lock);
 		free((*simulation)->philos[i]);
 		i++;
 	}
@@ -45,8 +45,14 @@ static void	simulation_start(t_simulation *simulation)
 	while (i < simulation->number_of_philo)
 	{
 		pthread_create(&simulation->philos[i]->thread, NULL, philo_start, simulation->philos[i]);
-		usleep(50);
-		i++;
+		i += 2;
+	}
+	usleep(50);
+	i = 1;
+	while (i < simulation->number_of_philo)
+	{
+		pthread_create(&simulation->philos[i]->thread, NULL, philo_start, simulation->philos[i]);
+		i += 2;
 	}
 	i = 0;
 	while (i < simulation->number_of_philo)

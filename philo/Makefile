@@ -5,7 +5,7 @@ SRCS = $(SRC_DIR)simulation.c \
 	$(SRC_DIR)parser.c \
 	$(SRC_DIR)utils.c \
 	$(SRC_DIR)philo.c \
-	$(SRC_DIR)simulation_utils.c
+	$(SRC_DIR)philo_utils.c
 
 OBJ_DIR = objs/
 OBJS = $(SRCS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
