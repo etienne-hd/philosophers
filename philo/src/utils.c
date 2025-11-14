@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 08:47:22 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/14 17:25:19 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/14 17:37:36 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 size_t	get_timestamp(void)
 {
-    struct timeval tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	return (tv.tv_usec + tv.tv_sec * 1000000);

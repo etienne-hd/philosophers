@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 08:37:59 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/14 15:47:47 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/14 17:32:43 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ static void	init_philos_fork(t_simulation *sim)
 		i++;
 	}
 }
+
 static int	init_philos(t_simulation *sim)
 {
 	size_t	i;

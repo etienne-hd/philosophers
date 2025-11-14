@@ -6,14 +6,14 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 09:57:56 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/14 16:21:05 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/14 17:38:06 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 # include <pthread.h>
-#include <stddef.h>
+# include <stddef.h>
 
 typedef struct s_simulation	t_simulation;
 typedef enum e_state
@@ -29,7 +29,7 @@ typedef struct s_fork
 }					t_fork;
 typedef struct s_philo
 {
-	t_simulation	*simulation;
+	t_simulation	*sim;
 	size_t			id;
 	pthread_t		thread;
 	t_state			state;
@@ -41,7 +41,7 @@ typedef struct s_philo
 	t_fork			right_fork;
 }				t_philo;
 void	philo_display(t_philo *philo, const char *s, int is_already_locked);
-t_philo	*philo_new(t_simulation *simulation, size_t id);
+t_philo	*philo_new(t_simulation *sim, size_t id);
 void	*philo_start(void *arg);
 
 #endif

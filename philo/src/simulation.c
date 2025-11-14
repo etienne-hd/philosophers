@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 08:32:48 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/14 16:20:58 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/14 17:37:05 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ static void	start_thread(t_philo *philo, int *code)
 	if (*code != 0)
 	{
 		write(2, "\e[0;31mError\nUnable to create thread.\e[0m\n", 42);
-		pthread_mutex_lock(&philo->simulation->lock);
-		philo->simulation->is_finish = 1;
-		pthread_mutex_unlock(&philo->simulation->lock);
+		pthread_mutex_lock(&philo->sim->lock);
+		philo->sim->is_finish = 1;
+		pthread_mutex_unlock(&philo->sim->lock);
 	}
 }
 
@@ -87,7 +87,8 @@ int	main(int argc, char **argv)
 	if (argc < 5 || argc > 6)
 	{
 		write(2, "Usage: ./philo <number_of_philosophers> <time_to_die> \
-<time_to_eat> <time_to_sleep> [number_of_times_each_philosopher_must_eat]\n", 128);
+<time_to_eat> <time_to_sleep> [number_of_times_each_philosopher_must_eat]\n",
+			128);
 		return (1);
 	}
 	simulation = parse(argc, argv);

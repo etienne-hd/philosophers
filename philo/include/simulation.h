@@ -6,15 +6,15 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 08:36:06 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/14 16:20:41 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/14 17:42:47 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIMULATION_H
 # define SIMULATION_H
+# include "philo.h"
+# include <stddef.h>
 
-#include "philo.h"
-#include <stddef.h>
 typedef struct s_simulation
 {
 	pthread_mutex_t	lock;
