@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 08:36:06 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/14 11:45:47 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/14 16:20:41 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ typedef struct s_simulation
 	size_t			start_at;
 	int				is_finish;
 	int				number_of_philo;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				nb_of_times_each_philo_must_eat;
+	size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
+	size_t			nb_of_times_each_philo_must_eat;
 }				t_simulation;
+void	simulation_exec_took(t_simulation *simulation, size_t begin_ts);
 void	simulation_destroy(t_simulation **simulation);
 int		get_simulation_state(t_simulation *sim);
 

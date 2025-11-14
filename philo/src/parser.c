@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 08:37:59 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/14 13:38:24 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/14 15:47:47 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ static int	ft_philo_atoi(char *s)
 	{
 		nb = nb * 10 + s[i++] - '0';
 		if (nb > 2147483647)
-			return (-1);
+			return (0);
 	}
 	while (s[i] == ' ' && (s[i] >= 8 && s[i] <= 13))
 		i++;
 	if (s[i] != '\0' || nb == 0)
-		return (-1);
+		return (0);
 	return (nb);
 }
 
@@ -51,13 +51,13 @@ static int	init_settings(int argc, char **argv, t_simulation *simulation)
 	if (argc == 6)
 		simulation->nb_of_times_each_philo_must_eat = ft_philo_atoi(argv[5]);
 	else
-		simulation->nb_of_times_each_philo_must_eat = -1;
+		simulation->nb_of_times_each_philo_must_eat = 0;
 	if (
-		(argc == 6 && simulation->nb_of_times_each_philo_must_eat == -1)
-		|| simulation->number_of_philo == -1
-		|| simulation->time_to_die == -1
-		|| simulation->time_to_eat == -1
-		|| simulation->time_to_sleep == -1
+		(argc == 6 && simulation->nb_of_times_each_philo_must_eat == 0)
+		|| simulation->number_of_philo == 0
+		|| simulation->time_to_die == 0
+		|| simulation->time_to_eat == 0
+		|| simulation->time_to_sleep == 0
 	)
 	{
 		write(2, "\e[0;31mError\nInvalid input.\e[0m\n", 32);

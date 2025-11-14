@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 09:57:56 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/14 13:36:58 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/14 16:21:05 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_philo
 	t_fork			*left_fork;
 	t_fork			right_fork;
 }				t_philo;
-void	philo_display(t_philo *philo, const char *s);
+void	philo_display(t_philo *philo, const char *s, int is_already_locked);
 t_philo	*philo_new(t_simulation *simulation, size_t id);
 void	*philo_start(void *arg);
 

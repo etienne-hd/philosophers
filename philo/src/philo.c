@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 09:59:24 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/14 14:04:50 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/14 17:26:38 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,18 @@ static int	philo_check_status(t_philo *philo)
 {
 	int	is_finish;
 
-	if (philo->eat_count >= philo->simulation->nb_of_times_each_philo_must_eat && philo->simulation->nb_of_times_each_philo_must_eat != -1)
+	if (philo->eat_count >= philo->simulation->nb_of_times_each_philo_must_eat && philo->simulation->nb_of_times_each_philo_must_eat != 0)
 		return (1);
 	pthread_mutex_lock(&philo->simulation->lock);
 	is_finish = philo->simulation->is_finish;
 	pthread_mutex_unlock(&philo->simulation->lock);
 	if (is_finish)
 		return (1);
-	if ((philo->last_meal != 0 && get_timestamp() >= philo->last_meal + philo->simulation->time_to_die)
-		|| (philo->last_meal == 0 && get_timestamp() >= philo->simulation->start_at + philo->simulation->time_to_die))
+	if ((philo->last_meal != 0 && get_timestamp() >= philo->last_meal + philo->simulation->time_to_die * 1000)
+		|| (philo->last_meal == 0 && get_timestamp() >= philo->simulation->start_at + philo->simulation->time_to_die * 1000))
 	{
-		philo_display(philo, "died");
 		pthread_mutex_lock(&philo->simulation->lock);
+		philo_display(philo, "died", 1);
 		philo->simulation->is_finish = 1;
 		pthread_mutex_unlock(&philo->simulation->lock);
 		return (1);
@@ -69,7 +69,7 @@ static int	philo_lock_fork(t_philo *philo, t_fork *fork)
 		usleep(1);
 	}
 	pthread_mutex_unlock(&fork->lock);
-	philo_display(philo, "has taken a fork");
+	philo_display(philo, "has taken a fork", 0);
 	return (0);
 }
 
@@ -79,7 +79,7 @@ static void	next_state(t_philo *philo)
 	{
 		philo->last_meal = get_timestamp();
 		philo->state = EAT;
-		philo->next_state_in = get_timestamp() + philo->simulation->time_to_eat;
+		philo->next_state_in = get_timestamp() + philo->simulation->time_to_eat * 1000;
 	}
 	else if (philo->state == EAT)
 	{
@@ -91,11 +91,13 @@ static void	next_state(t_philo *philo)
 		pthread_mutex_unlock(&philo->right_fork.lock);
 		philo->eat_count++;
 		philo->state = SLEEP;
-		philo->next_state_in = get_timestamp() + philo->simulation->time_to_sleep;
+		philo->next_state_in = get_timestamp() + philo->simulation->time_to_sleep * 1000;
+		if (philo->simulation->nb_of_times_each_philo_must_eat != 0 && philo_check_status(philo))
+			return ;
 	}
 	else if (philo->state == SLEEP)
 		philo->state = THINKING;
-	philo_display(philo, NULL);
+	philo_display(philo, NULL, 0);
 }
 
 void	*philo_start(void *arg)
@@ -109,7 +111,7 @@ void	*philo_start(void *arg)
 			break ;
 		if (philo->state == THINKING)
 		{
-			if (philo_lock_fork(philo, &philo->right_fork) || philo_lock_fork(philo, philo->left_fork))
+			if (philo_lock_fork(philo, philo->left_fork) || philo_lock_fork(philo, &philo->right_fork))
 				break ;
 			next_state(philo);
 		}
