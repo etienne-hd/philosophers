@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 08:32:48 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/12 19:06:39 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/14 12:42:28 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	simulation_destroy(t_simulation **simulation)
 		if (!(*simulation)->philos[i])
 			break ;
 		if ((*simulation)->philos[i]->is_mutex_init)
-			pthread_mutex_destroy(&(*simulation)->philos[i]->lock);
+			pthread_mutex_destroy(&(*simulation)->philos[i]->right_fork.lock);
 		free((*simulation)->philos[i]);
 		i++;
 	}

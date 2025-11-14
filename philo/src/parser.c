@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 08:37:59 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/12 18:34:44 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/14 13:38:24 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,12 @@ static void	init_philos_fork(t_simulation *sim)
 	while (i < sim->number_of_philo)
 	{
 		if (sim->number_of_philo == i + 1)
-			sim->philos[i]->left_philo = sim->philos[0];
+			sim->philos[i]->left_fork = &sim->philos[0]->right_fork;
 		else
-			sim->philos[i]->left_philo = sim->philos[i + 1];
-		pthread_mutex_init(&sim->philos[i]->lock, NULL);
+			sim->philos[i]->left_fork = &sim->philos[i + 1]->right_fork;
+		pthread_mutex_init(&sim->philos[i]->right_fork.lock, NULL);
 		sim->philos[i]->is_mutex_init = 1;
+		sim->philos[i]->left_fork->is_availaible = 1;
 		i++;
 	}
 }
