@@ -6,7 +6,7 @@
 /*   By: ehode <ehode@student.42angouleme.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 09:59:24 by ehode             #+#    #+#             */
-/*   Updated: 2025/11/14 17:36:09 by ehode            ###   ########.fr       */
+/*   Updated: 2025/11/14 18:56:45 by ehode            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	philo_lock_fork(t_philo *philo, t_fork *fork)
 			break ;
 		}
 		pthread_mutex_unlock(&fork->lock);
-		usleep(1);
+		usleep(1000);
 	}
 	pthread_mutex_unlock(&fork->lock);
 	philo_display(philo, "has taken a fork", 0);
@@ -123,7 +123,7 @@ void	*philo_start(void *arg)
 		}
 		else if (get_timestamp() >= philo->next_state_in)
 			next_state(philo);
-		usleep(1);
+		usleep(1000);
 	}
 	return (NULL);
 }
